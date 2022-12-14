@@ -6,6 +6,8 @@ import java.io.InputStream;
 public class ImageToResize {
     private BufferedImage image = null;
     private Pixel[][] pixels;
+    private int maxEnergy;
+    private int minEnergy;
     final static int MAX_ENERGY = 6 * 255 * 255;
 
 
@@ -14,8 +16,12 @@ public class ImageToResize {
 
             image = ImageIO.read(inputStream);
 
+            maxEnergy = 0;
+            minEnergy = MAX_ENERGY;
+
             createPixelsArray();
             setPixelEnergies();
+            setPixelBrightness();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,14 +49,32 @@ public class ImageToResize {
     private void setPixelEnergies() {
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[i].length; j++) {
-                if(isPixelBorder(i, j)){
+                if (isPixelBorder(i, j)) {
                     pixels[i][j].setEnergy(MAX_ENERGY);
-                }
-                else {
+                } else {
                     pixels[i][j].setEnergy(image.getRGB(i + 1, j), image.getRGB(i - 1, j),
                             image.getRGB(i, j - 1), image.getRGB(i, j + 1));
+                    resetMaxMin(i, j);
                 }
             }
+        }
+    }
+
+    private void setPixelBrightness() {
+        for (Pixel[] pixel : pixels) {
+            for (Pixel value : pixel) {
+                value.setBrightness(minEnergy, maxEnergy);
+            }
+        }
+    }
+
+    private void resetMaxMin(int i, int j) {
+        int currEnergy = pixels[i][j].getEnergy();
+        if (currEnergy < minEnergy) {
+            minEnergy = currEnergy;
+        }
+        if (currEnergy > maxEnergy) {
+            maxEnergy = currEnergy;
         }
     }
 
@@ -62,13 +86,4 @@ public class ImageToResize {
     }
 
 }
-
-
-
-    /*
-        TODO: calculate brightness
-        energy photo based on max and min energies. calculate bright = ((energy-min)/(max-min))*255
-        brightness = new color(bright, bright, bright)
-        dont include borders when calculating max. borders can just be white
-     */
 
