@@ -7,14 +7,13 @@ public class ImageToResize {
     private BufferedImage image = null;
     private Pixel[][] pixels;
 
-    public ImageToResize() {
+    public ImageToResize(File imageFile) {
         try {
 
-            File imageFile = new File("src/seam carving image.jpg");
             image = ImageIO.read(imageFile);
 
             createPixelsArray();
-
+            setPixelEnergies();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -28,6 +27,7 @@ public class ImageToResize {
     public BufferedImage getImage() {
         return image;
     }
+
     private void createPixelsArray() {
         pixels = new Pixel[image.getHeight()][image.getWidth()];
 
@@ -37,21 +37,27 @@ public class ImageToResize {
             }
         }
     }
+
+    private void setPixelEnergies() {
+        for (Pixel[] pixelRow : pixels) {
+            for (Pixel pixel : pixelRow) {
+                pixel.setEnergy();
+            }
+        }
+    }
+
 }
 
 
 
     /*
-        border should be highest possible value - 6*255^2
 
-        test energy with 3x3 array of ints[][] or colors[][] (maybe switch first dimension to be y and 2nd to be x
+        test energy with 3x3 array of ints[][] or colors[][]
         make sure that 3x3 array of pixels->correct 3x3 array of energy
-        energy is based off colors of neighbors, not off energy of neighbors
 
+        TODO: calculate brightness
         energy photo based on max and min energies. calculate bright = ((energy-min)/(max-min))*255
         brightness = new color(bright, bright, bright)
         dont include borders when calculating max. borders can just be white
-
-        - energy calculator and energy test classes
      */
 

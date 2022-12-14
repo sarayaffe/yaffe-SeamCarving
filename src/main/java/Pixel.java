@@ -1,35 +1,51 @@
 import java.awt.*;
 
 public class Pixel {
+    final static int MAX_ENERGY = 6 * 255 * 255;
     private ImageToResize image;
     private int xCoordinate;
     private int yCoordinate;
     private Color color;
     private int energy;
-    boolean isBorder;
-
 
     public Pixel(ImageToResize image, int xCoordinate, int yCoordinate) {
         this.image = image;
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
 
-        color = new Color(image.getImage().getRGB(xCoordinate, yCoordinate));
-        energy = setEnergy();
+        color = new Color(image.getImage().getRGB(yCoordinate, xCoordinate));
     }
 
-    private int setEnergy() {
-        //TODO: check for borders (one or more of below pixels wont exist) borders should be highest possible value
-        Pixel abovePixel = image.getPixels()[xCoordinate+1][yCoordinate];
-        Pixel belowPixel = image.getPixels()[xCoordinate-1][yCoordinate];
-        Pixel rightPixel = image.getPixels()[xCoordinate][yCoordinate+1];
-        Pixel leftPixel = image.getPixels()[xCoordinate][yCoordinate-1];
-        return (abovePixel.color.getRed() - belowPixel.color.getRed()) * (abovePixel.color.getRed() - belowPixel.color.getRed())
-                + (abovePixel.color.getGreen() - belowPixel.color.getGreen()) * (abovePixel.color.getGreen() - belowPixel.color.getGreen())
-                + (abovePixel.color.getBlue() - belowPixel.color.getBlue()) * (abovePixel.color.getBlue() - belowPixel.color.getBlue())
-                + (rightPixel.color.getRed() - leftPixel.color.getRed()) * (rightPixel.color.getRed() - leftPixel.color.getRed())
-                + (rightPixel.color.getGreen() - leftPixel.color.getGreen()) * (rightPixel.color.getGreen() - leftPixel.color.getGreen())
-                + (rightPixel.color.getBlue() - leftPixel.color.getBlue()) * (rightPixel.color.getBlue() - leftPixel.color.getBlue());
+    private boolean isPixelBorder() {
+        int maxX = image.getImage().getHeight();
+        int maxY = image.getImage().getWidth();
+        return xCoordinate + 1 >= maxX || xCoordinate - 1 < 0
+                || yCoordinate + 1 >= maxY || yCoordinate - 1 < 0;
+    }
+
+    public void setEnergy() {
+        if (isPixelBorder()) {
+            energy = MAX_ENERGY;
+        } else {
+            Color abovePixel = image.getPixels()[xCoordinate + 1][yCoordinate].color;
+            Color belowPixel = image.getPixels()[xCoordinate - 1][yCoordinate].color;
+            Color rightPixel = image.getPixels()[xCoordinate][yCoordinate + 1].color;
+            Color leftPixel = image.getPixels()[xCoordinate][yCoordinate - 1].color;
+
+
+            energy = (abovePixel.getRed() - belowPixel.getRed()) *
+                    (abovePixel.getRed() - belowPixel.getRed())
+                    + (abovePixel.getGreen() - belowPixel.getGreen()) *
+                    (abovePixel.getGreen() - belowPixel.getGreen())
+                    + (abovePixel.getBlue() - belowPixel.getBlue()) *
+                    (abovePixel.getBlue() - belowPixel.getBlue())
+                    + (rightPixel.getRed() - leftPixel.getRed()) *
+                    (rightPixel.getRed() - leftPixel.getRed())
+                    + (rightPixel.getGreen() - leftPixel.getGreen()) *
+                    (rightPixel.getGreen() - leftPixel.getGreen())
+                    + (rightPixel.getBlue() - leftPixel.getBlue()) *
+                    (rightPixel.getBlue() - leftPixel.getBlue());
+        }
     }
 
 
