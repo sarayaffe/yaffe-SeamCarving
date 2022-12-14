@@ -1,16 +1,18 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ImageToResize {
     private BufferedImage image = null;
     private Pixel[][] pixels;
+    final static int MAX_ENERGY = 6 * 255 * 255;
 
-    public ImageToResize(File imageFile) {
-        try {
 
-            image = ImageIO.read(imageFile);
+    public ImageToResize(String filePath) {
+        try (InputStream inputStream = ImageToResize.class.getResourceAsStream(filePath)) {
+
+            image = ImageIO.read(inputStream);
 
             createPixelsArray();
             setPixelEnergies();
@@ -29,21 +31,34 @@ public class ImageToResize {
     }
 
     private void createPixelsArray() {
-        pixels = new Pixel[image.getHeight()][image.getWidth()];
+        pixels = new Pixel[image.getWidth()][image.getHeight()];
 
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[i].length; j++) {
-                pixels[i][j] = new Pixel(this, i, j);
+                pixels[i][j] = new Pixel();
             }
         }
     }
 
     private void setPixelEnergies() {
-        for (Pixel[] pixelRow : pixels) {
-            for (Pixel pixel : pixelRow) {
-                pixel.setEnergy();
+        for (int i = 0; i < pixels.length; i++) {
+            for (int j = 0; j < pixels[i].length; j++) {
+                if(isPixelBorder(i, j)){
+                    pixels[i][j].setEnergy(MAX_ENERGY);
+                }
+                else {
+                    pixels[i][j].setEnergy(image.getRGB(i + 1, j), image.getRGB(i - 1, j),
+                            image.getRGB(i, j - 1), image.getRGB(i, j + 1));
+                }
             }
         }
+    }
+
+    private boolean isPixelBorder(int xCoordinate, int yCoordinate) {
+        int maxX = image.getWidth();
+        int maxY = image.getHeight();
+        return xCoordinate + 1 >= maxX || xCoordinate - 1 < 0
+                || yCoordinate + 1 >= maxY || yCoordinate - 1 < 0;
     }
 
 }
@@ -51,10 +66,6 @@ public class ImageToResize {
 
 
     /*
-
-        test energy with 3x3 array of ints[][] or colors[][]
-        make sure that 3x3 array of pixels->correct 3x3 array of energy
-
         TODO: calculate brightness
         energy photo based on max and min energies. calculate bright = ((energy-min)/(max-min))*255
         brightness = new color(bright, bright, bright)

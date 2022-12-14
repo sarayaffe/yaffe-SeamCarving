@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ImageToResizeTest {
 
-    ImageToResize imageToResize = new ImageToResize(new File("src/seam carving image.jpg"));
+    ImageToResize imageToResize = new ImageToResize("/seam carving image.jpg");
     BufferedImage bufferedImage = imageToResize.getImage();
 
     @Test
@@ -33,6 +33,6 @@ class ImageToResizeTest {
         //when
 
         //then
-        assertTrue(pixels.length == imageHeight && pixels[0].length == imageWidth);
+        assertTrue(pixels.length == imageWidth && pixels[0].length == imageHeight);
     }
 }

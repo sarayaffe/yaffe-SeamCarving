@@ -1,52 +1,37 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Pixel {
-    final static int MAX_ENERGY = 6 * 255 * 255;
-    private ImageToResize image;
-    private int xCoordinate;
-    private int yCoordinate;
-    private Color color;
     private int energy;
-
-    public Pixel(ImageToResize image, int xCoordinate, int yCoordinate) {
-        this.image = image;
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
-
-        color = new Color(image.getImage().getRGB(yCoordinate, xCoordinate));
+    public Pixel() {
     }
 
-    private boolean isPixelBorder() {
-        int maxX = image.getImage().getHeight();
-        int maxY = image.getImage().getWidth();
-        return xCoordinate + 1 >= maxX || xCoordinate - 1 < 0
-                || yCoordinate + 1 >= maxY || yCoordinate - 1 < 0;
+    public void setEnergy(int borderEnergy){
+        energy = borderEnergy;
     }
 
-    public void setEnergy() {
-        if (isPixelBorder()) {
-            energy = MAX_ENERGY;
-        } else {
-            Color abovePixel = image.getPixels()[xCoordinate + 1][yCoordinate].color;
-            Color belowPixel = image.getPixels()[xCoordinate - 1][yCoordinate].color;
-            Color rightPixel = image.getPixels()[xCoordinate][yCoordinate + 1].color;
-            Color leftPixel = image.getPixels()[xCoordinate][yCoordinate - 1].color;
-
-
-            energy = (abovePixel.getRed() - belowPixel.getRed()) *
-                    (abovePixel.getRed() - belowPixel.getRed())
-                    + (abovePixel.getGreen() - belowPixel.getGreen()) *
-                    (abovePixel.getGreen() - belowPixel.getGreen())
-                    + (abovePixel.getBlue() - belowPixel.getBlue()) *
-                    (abovePixel.getBlue() - belowPixel.getBlue())
-                    + (rightPixel.getRed() - leftPixel.getRed()) *
-                    (rightPixel.getRed() - leftPixel.getRed())
-                    + (rightPixel.getGreen() - leftPixel.getGreen()) *
-                    (rightPixel.getGreen() - leftPixel.getGreen())
-                    + (rightPixel.getBlue() - leftPixel.getBlue()) *
-                    (rightPixel.getBlue() - leftPixel.getBlue());
-        }
+    public int getEnergy() {
+        return energy;
     }
 
+    public void setEnergy(int abovePixel, int belowPixel, int leftPixel, int rightPixel) {
+        Color abovePixelColor = new Color(abovePixel);
+        Color belowPixelColor = new Color(belowPixel);
+        Color rightPixelColor = new Color(rightPixel);
+        Color leftPixelColor = new Color(leftPixel);
+
+        energy = (abovePixelColor.getRed() - belowPixelColor.getRed()) *
+                (abovePixelColor.getRed() - belowPixelColor.getRed())
+                + (abovePixelColor.getGreen() - belowPixelColor.getGreen()) *
+                (abovePixelColor.getGreen() - belowPixelColor.getGreen())
+                + (abovePixelColor.getBlue() - belowPixelColor.getBlue()) *
+                (abovePixelColor.getBlue() - belowPixelColor.getBlue())
+                + (rightPixelColor.getRed() - leftPixelColor.getRed()) *
+                (rightPixelColor.getRed() - leftPixelColor.getRed())
+                + (rightPixelColor.getGreen() - leftPixelColor.getGreen()) *
+                (rightPixelColor.getGreen() - leftPixelColor.getGreen())
+                + (rightPixelColor.getBlue() - leftPixelColor.getBlue()) *
+                (rightPixelColor.getBlue() - leftPixelColor.getBlue());
+    }
 
 }
