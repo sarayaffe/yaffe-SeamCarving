@@ -1,10 +1,10 @@
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+package image;
+
+import calculations.CalculateEnergies;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.nio.Buffer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,15 +24,17 @@ class ImageToResizeTest {
     }
 
     @Test
-    void getPixels() {
+    void getColorArray() {
         //given
-        Pixel[][] pixels = imageToResize.getPixels();
+        Color[][] colorsArray = imageToResize.getColorArray();
         int imageHeight = bufferedImage.getHeight();
         int imageWidth = bufferedImage.getWidth();
 
         //when
 
         //then
-        assertTrue(pixels.length == imageWidth && pixels[0].length == imageHeight);
+        assertEquals(imageWidth, colorsArray.length);
+        assertEquals(imageHeight, colorsArray[0].length);
+
     }
 }
