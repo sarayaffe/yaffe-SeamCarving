@@ -9,9 +9,6 @@ import java.io.InputStream;
 public class ImageToResize {
     private BufferedImage image = null;
     private Color[][] colorArray;
-    public BufferedImage getImage() {
-        return image;
-    }
 
     public ImageToResize(String filePath) {
         try (InputStream inputStream = ImageToResize.class.getResourceAsStream(filePath)) {
@@ -24,27 +21,35 @@ public class ImageToResize {
             e.printStackTrace();
         }
     }
+
     public Color[][] getColorArray() {
         return colorArray;
+    }
+
+    public void setColorArray(Color[][] colorArray) {
+        this.colorArray = colorArray;
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
 
     private void setColors() {
         for (int i = 0; i < colorArray.length; i++) {
             for (int j = 0; j < colorArray[i].length; j++) {
-                colorArray[i][j] = new Color(image.getRGB(i,j));
+                colorArray[i][j] = new Color(image.getRGB(i, j));
             }
         }
     }
-/*
-   1. Read image -> BufferedImage -> 2d array of colors or ints
-   2. double[][] energy
+
+    /*
    3. find lowest energy vertical seam
            seam - array of ints - ints being list of j coordinates for vertical seam and i coordinates for horizontal seam
    4. remove seam
-   5. goto 2 and repeat until remove the amount of columns you want and then do same horizontally
+   5. reset arrays and repeat until remove the amount of columns you want and then do same horizontally
 
    TESTS
-   generating for seams horizontally and vertically
+   generating seams horizontally and vertically
    removing seams
  */
 
