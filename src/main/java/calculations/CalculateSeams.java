@@ -1,10 +1,5 @@
 package calculations;
 
-/*
-1. find minEnergies to create seams
-2. find lowest seam
- */
-
 public class CalculateSeams {
     private double[][] energies;
     private double[][] minEnergies;
