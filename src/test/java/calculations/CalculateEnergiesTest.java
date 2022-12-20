@@ -30,10 +30,10 @@ class CalculateEnergiesTest {
             for (int j = 0; j < 4; j++) {
                 if (i + 1 >= 4 || i - 1 < 0
                         || j + 1 >= 4 || j - 1 < 0) {
-                    energyValues[i][j] = calculateEnergies.setEnergy(MAX_ENERGY);
+                    energyValues[i][j] = MAX_ENERGY;
                 } else {
                     energyValues[i][j] =
-                            calculateEnergies.setEnergy(colorArray[i + 1][j], colorArray[i - 1][j],
+                            calculateEnergies.CalculateEnergyValue(colorArray[i + 1][j], colorArray[i - 1][j],
                                     colorArray[i][j - 1], colorArray[i][j + 1]);
 
                 }

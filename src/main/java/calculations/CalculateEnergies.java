@@ -24,9 +24,9 @@ public class CalculateEnergies {
         for (int i = 0; i < energyArray.length; i++) {
             for (int j = 0; j < energyArray[i].length; j++) {
                 if (isBorderPixel(i, j)) {
-                    energyArray[i][j] = setEnergy(MAX_ENERGY);
+                    energyArray[i][j] = MAX_ENERGY;
                 } else {
-                    energyArray[i][j] = setEnergy(image.getColorArray()[i + 1][j], image.getColorArray()[i - 1][j],
+                    energyArray[i][j] = CalculateEnergyValue(image.getColorArray()[i + 1][j], image.getColorArray()[i - 1][j],
                             image.getColorArray()[i][j - 1], image.getColorArray()[i][j + 1]);
                 }
             }
@@ -40,11 +40,7 @@ public class CalculateEnergies {
                 || yCoordinate == maxY - 1 || yCoordinate == 0;
     }
 
-    public double setEnergy(int borderEnergy) {
-        return borderEnergy;
-    }
-
-    public double setEnergy(Color abovePixel, Color belowPixel, Color leftPixel, Color rightPixel) {
+    public double CalculateEnergyValue(Color abovePixel, Color belowPixel, Color leftPixel, Color rightPixel) {
 
         return (abovePixel.getRed() - belowPixel.getRed()) *
                 (abovePixel.getRed() - belowPixel.getRed())
