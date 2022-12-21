@@ -3,25 +3,28 @@ import calculations.seams.MinimalEnergies;
 import calculations.seams.MinimalEnergySeam;
 import image.ImageToResize;
 
+import java.awt.*;
+
 public class Main {
     public static void main(String[] args) {
 
         ImageToResize imageToResize = new ImageToResize("/seam carving image.jpg");
+        Color[][] colorArray = imageToResize.getColorArray();
 
-        //modify color array in imageToResize or instantiate new one here?
+        //calculators
         CalculateEnergies calculateEnergies = new CalculateEnergies();
         MinimalEnergies minimalEnergies = new MinimalEnergies();
         MinimalEnergySeam minimalEnergySeam = new MinimalEnergySeam();
 
+        //remove seams
+        //for # of vertical seams to remove
+            double[][] energies = calculateEnergies.calculateEnergyValues(colorArray);
+            int[] lowestEnergySeam = minimalEnergySeam.calculateMinSeam(
+                    minimalEnergies.calculateVerticalMinEnergies(energies));
+            //remove seam in energies
+            //remove seam in colorArray
+        //repeat for horizontal seams
 
-
-
-        /*
-        * Removing Seams:
-        * 1. find lowest energy vertical seam
-        * 2. remove seam
-        * 3. reset arrays and repeat until remove the amount of columns you want
-        * 4. repeat for horizontal seams
-        */
+        //return new image
     }
 }
