@@ -28,6 +28,20 @@ public class MinimalEnergies {
         return horizontalMinEnergies;
     }
 
+    private void calculateVerticalMinEnergies() {
+        for (int row = 0; row < verticalMinEnergies.length; row++) {
+            for (int col = 0; col < verticalMinEnergies[row].length; col++) {
+                double currEnergyIndex = energies[row][col];
+                if (row - 1 < 0) {
+                    verticalMinEnergies[row][col] = currEnergyIndex;
+                } else {
+                    verticalMinEnergies[row][col] =
+                            currEnergyIndex + aboveMin(verticalMinEnergies, row, col);
+                }
+            }
+        }
+    }
+
     private void calculateHorizontalMinEnergies() {
         for (int row = 0; row < horizontalMinEnergies.length; row++) {
             for (int col = 0; col < horizontalMinEnergies[row].length; col++) {
@@ -51,20 +65,6 @@ public class MinimalEnergies {
             return Math.min(Math.min(
                             minEnergies[row - 1][col], minEnergies[row - 1][col - 1]),
                     minEnergies[row - 1][col + 1]);
-        }
-    }
-
-    private void calculateVerticalMinEnergies() {
-        for (int row = 0; row < verticalMinEnergies.length; row++) {
-            for (int col = 0; col < verticalMinEnergies[row].length; col++) {
-                double currEnergyIndex = energies[row][col];
-                if (row - 1 < 0) {
-                    verticalMinEnergies[row][col] = currEnergyIndex;
-                } else {
-                    verticalMinEnergies[row][col] =
-                            currEnergyIndex + aboveMin(verticalMinEnergies, row, col);
-                }
-            }
         }
     }
 }
