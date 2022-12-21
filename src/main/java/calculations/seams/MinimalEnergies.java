@@ -1,34 +1,12 @@
 package calculations.seams;
 
 public class MinimalEnergies {
-    private double[][] energies;
-    private double[][] verticalMinEnergies;
-    private double[][] horizontalMinEnergies;
-
-
-    public MinimalEnergies(double[][] energyArray) {
-        this.energies = energyArray;
-
-
         //values for horizontal array will have inverse index values of the vertical array.
         // ex: horizontal[0][1] == vertical [1][0]
-        this.verticalMinEnergies = new double[energies.length][energies[0].length];
-        this.horizontalMinEnergies = new double[energies[0].length][energies.length];
 
-        calculateVerticalMinEnergies();
-        calculateHorizontalMinEnergies();
+    public double[][] calculateVerticalMinEnergies(double[][] energies) {
+        double[][] verticalMinEnergies = new double[energies.length][energies[0].length];
 
-    }
-
-    public double[][] getVerticalMinEnergies() {
-        return verticalMinEnergies;
-    }
-
-    public double[][] getHorizontalMinEnergies() {
-        return horizontalMinEnergies;
-    }
-
-    private void calculateVerticalMinEnergies() {
         for (int row = 0; row < verticalMinEnergies.length; row++) {
             for (int col = 0; col < verticalMinEnergies[row].length; col++) {
                 double currEnergyIndex = energies[row][col];
@@ -40,9 +18,11 @@ public class MinimalEnergies {
                 }
             }
         }
+        return verticalMinEnergies;
     }
 
-    private void calculateHorizontalMinEnergies() {
+    public double[][] calculateHorizontalMinEnergies(double[][] energies) {
+        double[][] horizontalMinEnergies = new double[energies[0].length][energies.length];
         for (int row = 0; row < horizontalMinEnergies.length; row++) {
             for (int col = 0; col < horizontalMinEnergies[row].length; col++) {
                 double currEnergyIndex = energies[col][row];
@@ -54,6 +34,7 @@ public class MinimalEnergies {
                 }
             }
         }
+        return horizontalMinEnergies;
     }
 
     private double aboveMin(double[][] minEnergies, int row, int col) {

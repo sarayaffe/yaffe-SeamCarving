@@ -29,13 +29,13 @@ class CalculateEnergiesTest {
                             new Color(40, 30, 1)}
             };
     CalculateEnergies calculateEnergies =
-            new CalculateEnergies(colorArray);
+            new CalculateEnergies();
     final static int MAX_ENERGY = 6 * 255 * 255;
 
     @Test
     void setEnergy() {
         //given
-        double[][] energyValues = calculateEnergies.getEnergyArray();
+        double[][] energyValues = calculateEnergies.calculateEnergyValues(colorArray);
 
         //when
 
