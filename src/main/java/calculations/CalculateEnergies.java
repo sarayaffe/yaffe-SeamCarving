@@ -1,7 +1,5 @@
 package calculations;
 
-import image.ImageToResize;
-
 import java.awt.*;
 
 public class CalculateEnergies {
@@ -13,20 +11,20 @@ public class CalculateEnergies {
         this.colorArray = colorArray;
 
         this.energyArray = new double[colorArray.length][colorArray[0].length];
-        setEnergyValues();
+        calculateEnergyValues();
     }
 
     public double[][] getEnergyArray() {
         return energyArray;
     }
 
-    private void setEnergyValues() {
+    private void calculateEnergyValues() {
         for (int i = 0; i < energyArray.length; i++) {
             for (int j = 0; j < energyArray[i].length; j++) {
                 if (isBorderPixel(i, j)) {
                     energyArray[i][j] = MAX_ENERGY;
                 } else {
-                    energyArray[i][j] = CalculateEnergyValue(colorArray[i + 1][j], colorArray[i - 1][j],
+                    energyArray[i][j] = calculateEnergyValue(colorArray[i + 1][j], colorArray[i - 1][j],
                             colorArray[i][j - 1], colorArray[i][j + 1]);
                 }
             }
@@ -40,7 +38,7 @@ public class CalculateEnergies {
                 || yCoordinate == maxY || yCoordinate == 0;
     }
 
-    public double CalculateEnergyValue(Color abovePixel, Color belowPixel, Color leftPixel, Color rightPixel) {
+    public double calculateEnergyValue(Color abovePixel, Color belowPixel, Color leftPixel, Color rightPixel) {
 
         return (abovePixel.getRed() - belowPixel.getRed()) *
                 (abovePixel.getRed() - belowPixel.getRed())
