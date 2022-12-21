@@ -2,8 +2,10 @@ package calculations.seams;
 
 public class MinimalEnergySeam {
 
-    //should this just be included in CalculateSeams class
     private double[][] minEnergies;
+
+    //vertical minEnergies -> array of column indices to be removed from bottom row
+    //horizontal minEnergies -> array of row indices to be removed from last column
     private int[] minSeam;
 
     public MinimalEnergySeam(double[][] minEnergies) {
@@ -16,7 +18,7 @@ public class MinimalEnergySeam {
         return minSeam;
     }
 
-    public int[] calculateMinSeam() {
+    public void calculateMinSeam() {
         int currRow = minSeam.length - 1;
         int currIndex = getMinBottomIndex();
         minSeam[0] = currIndex;
@@ -25,8 +27,6 @@ public class MinimalEnergySeam {
             minSeam[i] = currIndex;
             currRow--;
         }
-
-        return minSeam;
     }
 
     private int aboveMinIndex(int rowIndex, int colIndex) {
