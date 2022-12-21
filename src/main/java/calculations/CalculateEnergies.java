@@ -5,14 +5,14 @@ import image.ImageToResize;
 import java.awt.*;
 
 public class CalculateEnergies {
-    private ImageToResize image;
+    private Color[][] colorArray;
     private double[][] energyArray;
     final static int MAX_ENERGY = 6 * 255 * 255;
 
-    public CalculateEnergies(ImageToResize image) {
-        this.image = image;
+    public CalculateEnergies(Color[][] colorArray) {
+        this.colorArray = colorArray;
 
-        this.energyArray = new double[image.getImage().getWidth()][image.getImage().getHeight()];
+        this.energyArray = new double[colorArray.length][colorArray[0].length];
         setEnergyValues();
     }
 
@@ -26,18 +26,18 @@ public class CalculateEnergies {
                 if (isBorderPixel(i, j)) {
                     energyArray[i][j] = MAX_ENERGY;
                 } else {
-                    energyArray[i][j] = CalculateEnergyValue(image.getColorArray()[i + 1][j], image.getColorArray()[i - 1][j],
-                            image.getColorArray()[i][j - 1], image.getColorArray()[i][j + 1]);
+                    energyArray[i][j] = CalculateEnergyValue(colorArray[i + 1][j], colorArray[i - 1][j],
+                            colorArray[i][j - 1], colorArray[i][j + 1]);
                 }
             }
         }
     }
 
     private boolean isBorderPixel(int xCoordinate, int yCoordinate) {
-        int maxX = image.getImage().getWidth();
-        int maxY = image.getImage().getHeight();
-        return xCoordinate == maxX - 1 || xCoordinate == 0
-                || yCoordinate == maxY - 1 || yCoordinate == 0;
+        int maxX = colorArray.length - 1;
+        int maxY = colorArray[0].length - 1;
+        return xCoordinate == maxX || xCoordinate == 0
+                || yCoordinate == maxY || yCoordinate == 0;
     }
 
     public double CalculateEnergyValue(Color abovePixel, Color belowPixel, Color leftPixel, Color rightPixel) {
