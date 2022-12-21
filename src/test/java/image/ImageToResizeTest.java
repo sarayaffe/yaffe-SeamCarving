@@ -1,6 +1,5 @@
 package image;
 
-import calculations.CalculateEnergies;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;

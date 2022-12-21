@@ -1,4 +1,4 @@
-package calculations;
+package calculations.energies;
 
 import image.ImageToResize;
 

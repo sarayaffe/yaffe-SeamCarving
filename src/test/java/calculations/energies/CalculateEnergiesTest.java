@@ -1,6 +1,6 @@
-package calculations;
+package calculations.energies;
 
-import image.ImageToResize;
+import calculations.energies.CalculateEnergies;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
