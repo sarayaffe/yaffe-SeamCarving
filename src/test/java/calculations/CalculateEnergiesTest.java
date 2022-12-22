@@ -4,6 +4,7 @@ import image.ImageToResize;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,6 +47,9 @@ class CalculateEnergiesTest {
                         {MAX_ENERGY, 21800, 153, MAX_ENERGY},
                         {MAX_ENERGY, MAX_ENERGY, MAX_ENERGY, MAX_ENERGY}};
 
-        assertArrayEquals(expectedEnergyArray, energyValues);
+        for (int row = 0; row < energyValues.length; row++) {
+            assertArrayEquals(expectedEnergyArray[row], energyValues[row]);
+        }
+
     }
 }
