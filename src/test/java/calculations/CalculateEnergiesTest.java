@@ -47,9 +47,6 @@ class CalculateEnergiesTest {
                         {MAX_ENERGY, 21800, 153, MAX_ENERGY},
                         {MAX_ENERGY, MAX_ENERGY, MAX_ENERGY, MAX_ENERGY}};
 
-        for (int row = 0; row < energyValues.length; row++) {
-            assertArrayEquals(expectedEnergyArray[row], energyValues[row]);
-        }
-
+        assertArrayEquals(expectedEnergyArray, energyValues);
     }
 }
