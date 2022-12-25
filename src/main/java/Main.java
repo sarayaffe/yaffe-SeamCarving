@@ -16,13 +16,15 @@ public class Main {
         MinimalEnergies minimalEnergies = new MinimalEnergies();
         MinimalEnergySeam minimalEnergySeam = new MinimalEnergySeam();
 
+
         //remove seams
+
+        double[][] energies = calculateEnergies.calculateEnergyValues(colorArray);
         //for # of vertical seams to remove
-            double[][] energies = calculateEnergies.calculateEnergyValues(colorArray);
             int[] lowestEnergySeam = minimalEnergySeam.calculateMinSeam(
                     minimalEnergies.calculateVerticalMinEnergies(energies));
-            //remove seam in energies
             //remove seam in colorArray
+            //recaluclate energyArray
         //repeat for horizontal seams
 
         //return new image

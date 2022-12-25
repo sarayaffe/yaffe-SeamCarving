@@ -1,17 +1,19 @@
 package calculations.seams;
 
+import java.awt.*;
+
 public class MinimalEnergySeam {
 
-    //vertical minEnergies -> array of column indices to be removed from bottom row
-    //horizontal minEnergies -> array of row indices to be removed from last column
+    //vertical minSeam -> array of column indices to be removed starting from top row
+    //horizontal minSeam -> array of row indices to be removed starting from first column
 
     public int[] calculateMinSeam(double[][] minEnergies) {
         int[] minSeam = new int[minEnergies.length];
         int currRow = minSeam.length - 1;
         int currIndex = getMinBottomIndex(minSeam, minEnergies);
-        minSeam[0] = currIndex;
-        for (int i = 1; i < minSeam.length; i++) {
-            currIndex = aboveMinIndex(minEnergies, currRow, minSeam[i - 1]);
+        minSeam[minSeam.length - 1] = currIndex;
+        for (int i = minSeam.length - 2; i >= 0; i--) {
+            currIndex = aboveMinIndex(minEnergies, currRow, minSeam[i + 1]);
             minSeam[i] = currIndex;
             currRow--;
         }
@@ -54,7 +56,7 @@ public class MinimalEnergySeam {
         double minBottomEnergy = minEnergies[numColumns][minBottomIndex];
         for (int bottomIndex = 0; bottomIndex < minEnergies[0].length; bottomIndex++) {
             double currBottomEnergy = minEnergies[numColumns][bottomIndex];
-            if(currBottomEnergy < minBottomEnergy){
+            if (currBottomEnergy < minBottomEnergy) {
                 minBottomEnergy = currBottomEnergy;
                 minBottomIndex = bottomIndex;
             }
