@@ -1,44 +1,36 @@
-package calculations;
+package calculations.energies;
 
 import java.awt.*;
 
 public class CalculateEnergies {
-    private Color[][] colorArray;
-    private double[][] energyArray;
     final static int MAX_ENERGY = 6 * 255 * 255;
 
-    public CalculateEnergies(Color[][] colorArray) {
-        this.colorArray = colorArray;
+    public double[][] calculateEnergyValues(Color[][] colorArray) {
+        double[][] energyArray = new double[colorArray.length][colorArray[0].length];
 
-        this.energyArray = new double[colorArray.length][colorArray[0].length];
-        calculateEnergyValues();
-    }
-
-    public double[][] getEnergyArray() {
-        return energyArray;
-    }
-
-    private void calculateEnergyValues() {
         for (int i = 0; i < energyArray.length; i++) {
             for (int j = 0; j < energyArray[i].length; j++) {
-                if (isBorderPixel(i, j)) {
+                if (isBorderPixel(colorArray, i, j)) {
                     energyArray[i][j] = MAX_ENERGY;
                 } else {
-                    energyArray[i][j] = calculateEnergyValue(colorArray[i + 1][j], colorArray[i - 1][j],
-                            colorArray[i][j - 1], colorArray[i][j + 1]);
+                    energyArray[i][j] =
+                            calculateEnergyValue(colorArray[i + 1][j], colorArray[i - 1][j],
+                                    colorArray[i][j - 1], colorArray[i][j + 1]);
                 }
             }
         }
+        return energyArray;
     }
 
-    private boolean isBorderPixel(int xCoordinate, int yCoordinate) {
+    private boolean isBorderPixel(Color[][] colorArray, int xCoordinate, int yCoordinate) {
         int maxX = colorArray.length - 1;
         int maxY = colorArray[0].length - 1;
         return xCoordinate == maxX || xCoordinate == 0
                 || yCoordinate == maxY || yCoordinate == 0;
     }
 
-    public double calculateEnergyValue(Color abovePixel, Color belowPixel, Color leftPixel, Color rightPixel) {
+    public double calculateEnergyValue(Color abovePixel, Color belowPixel, Color leftPixel,
+                                       Color rightPixel) {
 
         return (abovePixel.getRed() - belowPixel.getRed()) *
                 (abovePixel.getRed() - belowPixel.getRed())

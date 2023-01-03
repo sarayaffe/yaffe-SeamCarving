@@ -42,16 +42,5 @@ public class ImageToResize {
         }
     }
 
-    /*
-   3. find lowest energy vertical seam
-           seam - array of ints - ints being list of j coordinates for vertical seam and i coordinates for horizontal seam
-   4. remove seam
-   5. reset arrays and repeat until remove the amount of columns you want and then do same horizontally
-
-   TESTS
-   generating seams horizontally and vertically
-   removing seams
- */
-
 }
 
