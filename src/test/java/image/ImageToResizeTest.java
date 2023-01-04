@@ -8,8 +8,7 @@ import java.awt.image.BufferedImage;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ImageToResizeTest {
-
-    ImageToResize imageToResize = new ImageToResize("/seam carving image.jpg");
+    ImageToResize imageToResize = new ImageToResize("/Broadway_tower_edit.jpg");
     BufferedImage bufferedImage = imageToResize.getImage();
 
     @Test
