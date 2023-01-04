@@ -1,10 +1,8 @@
 package calculations.energies;
 
-import calculations.energies.CalculateEnergies;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 

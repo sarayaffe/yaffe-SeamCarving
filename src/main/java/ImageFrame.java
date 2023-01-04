@@ -1,4 +1,3 @@
-import image.ImageToResize;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,9 +9,9 @@ import java.io.IOException;
 public class ImageFrame extends JFrame {
 
     private final JLabel imageLabel;
+    private final ImagePresenter imagePresenter = new ImagePresenter();
 
     public ImageFrame() {
-
         setLayout(new BorderLayout());
 
         // This is where the image will be stored.
@@ -36,8 +35,13 @@ public class ImageFrame extends JFrame {
         add(northPanel, BorderLayout.NORTH);
         add(imageLabel, BorderLayout.CENTER);
 
-        BufferedImage image = new ImageToResize("/Broadway_tower_edit.jpg").getImage();
-        loadSeamImage(image);
+        BufferedImage image;
+        try {
+            image = ImageIO.read(ImageFrame.class.getResourceAsStream("/Broadway_tower_edit.jpg"));
+            loadSeamImage(image);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         setTitle("Seam Carving");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -65,10 +69,10 @@ public class ImageFrame extends JFrame {
         pack();
     }
 
-    private void setSeamImageSize(int width, int height) {
-        // generate a newImage with the new width and height
+    private void setSeamImageSize(int newWidth, int newHeight) {
+        ImageIcon newImage = imagePresenter.resizeImage((ImageIcon) imageLabel.getIcon(), newWidth, newHeight);
 
-        //imageLabel.setIcon(newImage);
+        imageLabel.setIcon(newImage);
     }
 
     public static void main(String[] args) {
