@@ -14,7 +14,7 @@ public class CalculateEnergies {
                     energyArray[i][j] = MAX_ENERGY;
                 } else {
                     energyArray[i][j] =
-                            calculateEnergyValue(colorArray[i + 1][j], colorArray[i - 1][j],
+                            calculateEnergyValue(colorArray[i - 1][j], colorArray[i + 1][j],
                                     colorArray[i][j - 1], colorArray[i][j + 1]);
                 }
             }
