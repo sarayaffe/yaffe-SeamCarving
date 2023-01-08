@@ -20,20 +20,18 @@ public class ImagePresenter {
         BufferedImage imageToBeResized = (BufferedImage) currentIcon.getImage();
         boolean resizeFromOriginalImage = false;
 
-        //confirm new width and height
+        //confirm whether to resize from original image
         int originalImageHeight = originalImage.getHeight();
         int originalImageWidth = originalImage.getWidth();
-        if (width > imageToBeResized.getWidth()) {
+        if (width > imageToBeResized.getWidth() || height > imageToBeResized.getHeight()) {
+            resizeFromOriginalImage = true;
+            //check that height/width don't exceed dimensions of original image
             if (width > originalImageWidth) {
                 width = originalImageWidth;
             }
-            resizeFromOriginalImage = true;
-        }
-        if (height > imageToBeResized.getHeight()) {
             if (height > originalImageHeight) {
                 height = originalImageHeight;
             }
-            resizeFromOriginalImage = true;
         }
 
         BufferedImage newBufferedImage;
