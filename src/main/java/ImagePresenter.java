@@ -37,36 +37,23 @@ public class ImagePresenter {
         }
 
         BufferedImage newBufferedImage;
-        Color[][] colorArray;
-        //resize from current image
-        if (!resizeFromOriginalImage) {
-            colorArray =
-                    new Color[imageToBeResized.getHeight()][imageToBeResized.getWidth()];
-            for (int i = 0; i < colorArray.length; i++) {
-                for (int j = 0; j < colorArray[i].length; j++) {
-                    colorArray[i][j] = new Color(imageToBeResized.getRGB(j, i));
-                }
-            }
-            newBufferedImage = removeSeams(imageToBeResized, colorArray, width, height);
-        }
         //resize from original image
+        if (resizeFromOriginalImage) {
+            newBufferedImage = removeSeams(originalImage, width, height);
+        }
+        //resize from current image
         else {
-            colorArray =
-                    new Color[originalImageHeight][originalImageWidth];
-            for (int i = 0; i < colorArray.length; i++) {
-                for (int j = 0; j < colorArray[i].length; j++) {
-                    colorArray[i][j] = new Color(originalImage.getRGB(j, i));
-                }
-            }
-            newBufferedImage = removeSeams(originalImage, colorArray, width, height);
+            newBufferedImage = removeSeams(imageToBeResized, width, height);
         }
 
 
         return new ImageIcon(newBufferedImage);
     }
 
-    private BufferedImage removeSeams(BufferedImage bufferedImage, Color[][] colorArray,
+    private BufferedImage removeSeams(BufferedImage bufferedImage,
                                       int newWidth, int newHeight) {
+        Color[][] colorArray = createColorArray(bufferedImage);
+
         int numHorizontalToRemove = bufferedImage.getHeight() - newHeight;
         int numVerticalToRemove = bufferedImage.getWidth() - newWidth;
         double[][] energies = calculateEnergies.calculateEnergyValues(colorArray);
@@ -105,6 +92,16 @@ public class ImagePresenter {
         }
         return newBufferedImage;
     }
+    private Color[][] createColorArray(BufferedImage imageToResize) {
+        Color[][] colorArray = new Color[imageToResize.getHeight()][imageToResize.getWidth()];
 
+        for (int i = 0; i < colorArray.length; i++) {
+            for (int j = 0; j < colorArray[i].length; j++) {
+                colorArray[i][j] = new Color(imageToResize.getRGB(j, i));
+            }
+        }
+
+        return colorArray;
+    }
 
 }
