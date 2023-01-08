@@ -15,16 +15,52 @@ public class ImagePresenter {
     SeamRemover seamRemover = new SeamRemover();
 
 
-    public ImageIcon resizeImage(ImageIcon currentIcon, int width, int height) {
-        BufferedImage oldBufferedImage = (BufferedImage) currentIcon.getImage();
-        Color[][] colorArray = new Color[oldBufferedImage.getHeight()][oldBufferedImage.getWidth()];
-        for (int i = 0; i < colorArray.length; i++) {
-            for (int j = 0; j < colorArray[i].length; j++) {
-                colorArray[i][j] = new Color(oldBufferedImage.getRGB(j, i));
+    public ImageIcon resizeImage(BufferedImage originalImage, ImageIcon currentIcon, int width,
+                                 int height) {
+        BufferedImage imageToBeResized = (BufferedImage) currentIcon.getImage();
+        boolean resizeFromOriginalImage = false;
+
+        //confirm new width and height
+        int originalImageHeight = originalImage.getHeight();
+        int originalImageWidth = originalImage.getWidth();
+        if (width > imageToBeResized.getWidth()) {
+            if (width > originalImageWidth) {
+                width = originalImageWidth;
             }
+            resizeFromOriginalImage = true;
+        }
+        if (height > imageToBeResized.getHeight()) {
+            if (height > originalImageHeight) {
+                height = originalImageHeight;
+            }
+            resizeFromOriginalImage = true;
         }
 
-        BufferedImage newBufferedImage = removeSeams(oldBufferedImage, colorArray, width, height);
+        BufferedImage newBufferedImage;
+        Color[][] colorArray;
+        //resize from current image
+        if (!resizeFromOriginalImage) {
+            colorArray =
+                    new Color[imageToBeResized.getHeight()][imageToBeResized.getWidth()];
+            for (int i = 0; i < colorArray.length; i++) {
+                for (int j = 0; j < colorArray[i].length; j++) {
+                    colorArray[i][j] = new Color(imageToBeResized.getRGB(j, i));
+                }
+            }
+            newBufferedImage = removeSeams(imageToBeResized, colorArray, width, height);
+        }
+        //resize from original image
+        else {
+            colorArray =
+                    new Color[originalImageHeight][originalImageWidth];
+            for (int i = 0; i < colorArray.length; i++) {
+                for (int j = 0; j < colorArray[i].length; j++) {
+                    colorArray[i][j] = new Color(originalImage.getRGB(j, i));
+                }
+            }
+            newBufferedImage = removeSeams(originalImage, colorArray, width, height);
+        }
+
 
         return new ImageIcon(newBufferedImage);
     }
@@ -59,7 +95,7 @@ public class ImagePresenter {
     }
 
     private BufferedImage convertColorsToImage(Color[][] colorArray, int newWidth,
-                                                  int newHeight) {
+                                               int newHeight) {
         BufferedImage newBufferedImage =
                 new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < newHeight; x++) {
