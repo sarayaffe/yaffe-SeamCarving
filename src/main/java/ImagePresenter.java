@@ -54,25 +54,25 @@ public class ImagePresenter {
 
         int numHorizontalToRemove = bufferedImage.getHeight() - newHeight;
         int numVerticalToRemove = bufferedImage.getWidth() - newWidth;
-        double[][] energies = calculateEnergies.calculateEnergyValues(colorArray);
+        double[][] energies;
 
         //remove vertical seams
         if (numVerticalToRemove > 0) {
             for (int i = 0; i < numVerticalToRemove; i++) {
+                energies = calculateEnergies.calculateEnergyValues(colorArray);
                 int[] lowestEnergySeam = minimalEnergySeam.calculateMinSeam(
                         minimalEnergies.calculateVerticalMinEnergies(energies));
                 colorArray = seamRemover.removeVerticalSeam(colorArray, lowestEnergySeam);
-                energies = calculateEnergies.calculateEnergyValues(colorArray);
             }
         }
 
         //remove horizontal seams
         if (numHorizontalToRemove > 0) {
             for (int i = 0; i < numHorizontalToRemove; i++) {
+                energies = calculateEnergies.calculateEnergyValues(colorArray);
                 int[] lowestEnergySeam = minimalEnergySeam.calculateMinSeam(
                         minimalEnergies.calculateHorizontalMinEnergies(energies));
                 colorArray = seamRemover.removeHorizontalSeam(colorArray, lowestEnergySeam);
-                energies = calculateEnergies.calculateEnergyValues(colorArray);
             }
         }
 
