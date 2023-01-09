@@ -72,9 +72,9 @@ public class ImageFrame extends JFrame {
     }
 
     private void setSeamImageSize(int newWidth, int newHeight) {
-        ImageIcon newImage = imagePresenter.resizeImage(originalImage, (ImageIcon) imageLabel.getIcon(), newWidth, newHeight);
+        Image newImage = imagePresenter.resizeImage(originalImage, (ImageIcon) imageLabel.getIcon(), newWidth, newHeight);
 
-        imageLabel.setIcon(newImage);
+        imageLabel.setIcon(new ImageIcon(newImage));
     }
 
     public static void main(String[] args) {

@@ -15,7 +15,7 @@ public class ImagePresenter {
     SeamRemover seamRemover = new SeamRemover();
 
 
-    public ImageIcon resizeImage(BufferedImage originalImage, ImageIcon currentIcon, int width,
+    public Image resizeImage(BufferedImage originalImage, ImageIcon currentIcon, int width,
                                  int height) {
         BufferedImage imageToBeResized = (BufferedImage) currentIcon.getImage();
         boolean resizeFromOriginalImage = false;
@@ -45,7 +45,7 @@ public class ImagePresenter {
         }
 
 
-        return new ImageIcon(newBufferedImage);
+        return newBufferedImage;
     }
 
     private BufferedImage removeSeams(BufferedImage bufferedImage,
