@@ -10,6 +10,7 @@ public class ImageFrame extends JFrame {
 
     private final JLabel imageLabel;
     private final ImagePresenter imagePresenter = new ImagePresenter();
+    private BufferedImage originalImage;
 
     public ImageFrame() {
         setLayout(new BorderLayout());
@@ -63,6 +64,7 @@ public class ImageFrame extends JFrame {
     }
 
     public void loadSeamImage(BufferedImage image) {
+        originalImage = image;
         imageLabel.setIcon(new ImageIcon(image));
 
         setSize(image.getWidth(null), image.getHeight(null));
@@ -70,9 +72,9 @@ public class ImageFrame extends JFrame {
     }
 
     private void setSeamImageSize(int newWidth, int newHeight) {
-        ImageIcon newImage = imagePresenter.resizeImage((ImageIcon) imageLabel.getIcon(), newWidth, newHeight);
+        Image newImage = imagePresenter.resizeImage(originalImage, (ImageIcon) imageLabel.getIcon(), newWidth, newHeight);
 
-        imageLabel.setIcon(newImage);
+        imageLabel.setIcon(new ImageIcon(newImage));
     }
 
     public static void main(String[] args) {
